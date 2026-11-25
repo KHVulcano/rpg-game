@@ -1,0 +1,23 @@
+function prepare() {
+    declare global GENERATOR_LAYERS: list[{depth: num, block: item}];
+    declare global GENERATOR_HEIGHT: num;
+    declare global GENERATOR_SCALE: num;
+}
+
+function configureDefaults() {
+    GENERATOR_LAYERS = [
+        createLayer(1, item("grass_block")),
+        createLayer(2, item("dirt")),
+        createLayer(15, item("stone")),
+        createLayer(999, item("deepslate"))
+    ];
+    GENERATOR_HEIGHT = 32;
+    GENERATOR_SCALE = 8;
+}
+
+function createLayer(depth: num, block: item): {depth: num, block: item} {
+    return {
+        depth: depth,
+        block: block
+    };
+}

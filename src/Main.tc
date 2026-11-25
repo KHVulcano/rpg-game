@@ -1,0 +1,35 @@
+gameevent startup {
+    declare global PACK_URL = "";
+
+    configureDefaults();
+}
+
+process startGeneration {
+    clearPlot();
+    wait(40);
+    generatePlot();
+}
+
+playerevent swapHands {
+    start startGeneration;
+}
+
+function alert(msg: str) {
+    player.sendMessage(s"<#820023>[<#ff4f4f>ALERT<#820023>] <#ff4f4f>", msg);
+}
+
+function broadcast(msg: str) {
+    allPlayers.sendMessage(s"<#87127d>[<#f768eb>SYSTEM<#87127d>] <#f768eb>", msg);
+}
+
+playerevent join {
+    allPlayers.setFlying();
+    if (PACK_URL != "") {
+        default.sendResourcePack(PACK_URL);
+    }
+}
+
+playerevent resourcePackDecline {
+    alert("The resource pack is required to use this plot");
+    player.kick();
+}

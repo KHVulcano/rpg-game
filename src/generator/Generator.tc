@@ -1,0 +1,48 @@
+function clearPlot() {
+    broadcast("Clearing plot.");
+    repeat (line y to 6) {
+        wait(2);
+        game.writeTransaction(item("air"), loc(0, y * 10, 0), loc(game.plotSize, y * 10 + 9, game.plotSize));
+        game.applyTransaction();
+        // game.setRegion(item("air"), loc(0, y, 0), loc(game.plotSize, y, game.plotSize));
+    }
+    broadcast("Finished clearing plot.");
+}
+
+function generatePlot() {
+    broadcast("Generating plot.");
+    for (line x of range(0,game.plotSize)) {
+        wait(1);
+        while(game.cpuUsage > 30) {
+            wait (20);
+        }
+        for (line z of range(0,game.plotSize)) {
+            line location = loc(x, 60, z);
+            line perlin = num.getNoise(location);
+            location.y = perlin * GENERATOR_SCALE + GENERATOR_HEIGHT;
+            generateColumn(x, perlin * 8 + 25, z);
+        }
+    }
+    broadcast("Finished generating plot.");
+}
+
+function generateColumn(x: num, y: num, z: num) {
+    y = num.ceil(y);
+    // line dirtLevel = y - 5;
+    // game.setRegion(item("stone"), loc(x, 1, z), loc(x, dirtLevel - 1, z));
+    // game.setRegion(item("dirt"), loc(x, dirtLevel, z), loc(x, y - 1, z));
+    // game.setBlock(item("grass_block"), loc(x, y, z));
+    line layerDepth = 0;
+    line layerIndex = 0;
+    line layer = GENERATOR_LAYERS[layerIndex];
+    repeat (line i to y) {
+        line iy = y - i + 1;
+        if (layerDepth >= layer["depth"]) {
+            layerDepth = 0;
+            layerIndex++;
+            line layer = GENERATOR_LAYERS[layerIndex];
+        }
+        game.setBlock(layer["block"], loc(x, iy, z));
+        layerDepth++;
+    }
+}
