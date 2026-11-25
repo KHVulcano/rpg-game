@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "rpg:item/iron_axe_handle",
-    "layer1": "rpg:item/iron_axe_metal"
+    "layer0": "rpg:item/iron_axe_metal",
+    "layer1": "rpg:item/iron_axe_handle"
   }
 }
