@@ -1,5 +1,5 @@
 gameevent startup {
-    declare global PACK_URL = "";
+    declare global PACK_URL = "https://github.com/KHVulcano/rpg-game/raw/refs/heads/main/pack.zip";
 
     configureDefaults();
 }
